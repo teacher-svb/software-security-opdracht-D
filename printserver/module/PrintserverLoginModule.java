@@ -1,43 +1,4 @@
-/*
- *
- * Copyright (c) 2000, 2002, Oracle and/or its affiliates. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or
- * without modification, are permitted provided that the following
- * conditions are met:
- *
- * -Redistributions of source code must retain the above copyright
- * notice, this  list of conditions and the following disclaimer.
- *
- * -Redistribution in binary form must reproduct the above copyright
- * notice, this list of conditions and the following disclaimer in
- * the documentation and/or other materials provided with the
- * distribution.
- *
- * Neither the name of Oracle nor the names of
- * contributors may be used to endorse or promote products derived
- * from this software without specific prior written permission.
- *
- * This software is provided "AS IS," without a warranty of any
- * kind. ALL EXPRESS OR IMPLIED CONDITIONS, REPRESENTATIONS AND
- * WARRANTIES, INCLUDING ANY IMPLIED WARRANTY OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE OR NON-INFRINGEMENT, ARE HEREBY
- * EXCLUDED. SUN AND ITS LICENSORS SHALL NOT BE LIABLE FOR ANY
- * DAMAGES OR LIABILITIES  SUFFERED BY LICENSEE AS A RESULT OF  OR
- * RELATING TO USE, MODIFICATION OR DISTRIBUTION OF THE SOFTWARE OR
- * ITS DERIVATIVES. IN NO EVENT WILL SUN OR ITS LICENSORS BE LIABLE
- * FOR ANY LOST REVENUE, PROFIT OR DATA, OR FOR DIRECT, INDIRECT,
- * SPECIAL, CONSEQUENTIAL, INCIDENTAL OR PUNITIVE DAMAGES, HOWEVER
- * CAUSED AND REGARDLESS OF THE THEORY OF LIABILITY, ARISING OUT OF
- * THE USE OF OR INABILITY TO USE SOFTWARE, EVEN IF SUN HAS BEEN
- * ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- *
- * You acknowledge that Software is not designed, licensed or
- * intended for use in the design, construction, operation or
- * maintenance of any nuclear facility.
- */
-
-package sample.module;
+package printserver.module;
 
 import java.util.*;
 import java.io.IOException;
@@ -45,24 +6,9 @@ import javax.security.auth.*;
 import javax.security.auth.callback.*;
 import javax.security.auth.login.*;
 import javax.security.auth.spi.*;
-import sample.principal.SamplePrincipal;
+import printserver.principal.PrintserverPrincipal;
 
-/**
- * <p> This sample LoginModule authenticates users with a password.
- *
- * <p> This LoginModule only recognizes one user:       testUser
- * <p> testUser's password is:  testPassword
- *
- * <p> If testUser successfully authenticates itself,
- * a <code>SamplePrincipal</code> with the testUser's user name
- * is added to the Subject.
- *
- * <p> This LoginModule recognizes the debug option.
- * If set to true in the login Configuration,
- * debug messages will be output to the output stream, System.out.
- *
- */
-public class SampleLoginModule implements LoginModule {
+public class PrintserverLoginModule implements LoginModule {
 
     // initial state
     private Subject subject;
@@ -81,8 +27,8 @@ public class SampleLoginModule implements LoginModule {
     private String username;
     private char[] password;
 
-    // testUser's SamplePrincipal
-    private SamplePrincipal userPrincipal;
+    // testUser's PrintserverPrincipal
+    private PrintserverPrincipal userPrincipal;
 
     /**
      * Initialize this <code>LoginModule</code>.
@@ -162,10 +108,10 @@ public class SampleLoginModule implements LoginModule {
 
         // print debugging information
         if (debug) {
-            System.out.println("\t\t[SampleLoginModule] " +
+            System.out.println("\t\t[PrintserverLoginModule] " +
                                 "user entered user name: " +
                                 username);
-            System.out.print("\t\t[SampleLoginModule] " +
+            System.out.print("\t\t[PrintserverLoginModule] " +
                                 "user entered password: ");
             for (int i = 0; i < password.length; i++)
                 System.out.print(password[i]);
@@ -175,7 +121,12 @@ public class SampleLoginModule implements LoginModule {
         // verify the username/password
         boolean usernameCorrect = false;
         boolean passwordCorrect = false;
-        if (username.equals("testUser"))
+        if (username.equals("testUser") ||
+            username.equals("Alice") ||
+            username.equals("Bart") ||
+            username.equals("Cecile") ||
+            username.equals("Dirk") ||
+            username.equals("Erica"))
             usernameCorrect = true;
         if (usernameCorrect &&
             password.length == 12 &&
@@ -195,7 +146,7 @@ public class SampleLoginModule implements LoginModule {
             // authentication succeeded!!!
             passwordCorrect = true;
             if (debug)
-                System.out.println("\t\t[SampleLoginModule] " +
+                System.out.println("\t\t[PrintserverLoginModule] " +
                                 "authentication succeeded");
             succeeded = true;
             return true;
@@ -203,7 +154,7 @@ public class SampleLoginModule implements LoginModule {
 
             // authentication failed -- clean out state
             if (debug)
-                System.out.println("\t\t[SampleLoginModule] " +
+                System.out.println("\t\t[PrintserverLoginModule] " +
                                 "authentication failed");
             succeeded = false;
             username = null;
@@ -227,7 +178,7 @@ public class SampleLoginModule implements LoginModule {
      * <p> If this LoginModule's own authentication attempt
      * succeeded (checked by retrieving the private state saved by the
      * <code>login</code> method), then this method associates a
-     * <code>SamplePrincipal</code>
+     * <code>PrintserverPrincipal</code>
      * with the <code>Subject</code> located in the
      * <code>LoginModule</code>.  If this LoginModule's own
      * authentication attempted failed, then this method removes
@@ -247,14 +198,14 @@ public class SampleLoginModule implements LoginModule {
             // add a Principal (authenticated identity)
             // to the Subject
 
-            // assume the user we authenticated is the SamplePrincipal
-            userPrincipal = new SamplePrincipal(username);
+            // assume the user we authenticated is the PrintserverPrincipal
+            userPrincipal = new PrintserverPrincipal(username);
             if (!subject.getPrincipals().contains(userPrincipal))
                 subject.getPrincipals().add(userPrincipal);
 
             if (debug) {
-                System.out.println("\t\t[SampleLoginModule] " +
-                                "added SamplePrincipal to Subject");
+                System.out.println("\t\t[PrintserverLoginModule] " +
+                                "added PrintserverPrincipal to Subject");
             }
 
             // in any case, clean out state
@@ -310,7 +261,7 @@ public class SampleLoginModule implements LoginModule {
     /**
      * Logout the user.
      *
-     * <p> This method removes the <code>SamplePrincipal</code>
+     * <p> This method removes the <code>PrintserverPrincipal</code>
      * that was added by the <code>commit</code> method.
      *
      * <p>

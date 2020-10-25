@@ -37,7 +37,7 @@
  * maintenance of any nuclear facility.
  */
 
-package sample;
+package printserver;
 
 import java.io.File;
 import java.security.PrivilegedAction;

@@ -1,0 +1,65 @@
+grant codebase "file:./PrintserverLM.jar" {
+    permission javax.security.auth.AuthPermission "modifyPrincipals";
+};
+
+grant codebase "file:./PrintserverAzn.jar" {
+
+   permission javax.security.auth.AuthPermission "createLoginContext.Printserver";
+   permission javax.security.auth.AuthPermission "doAsPrivileged";
+};
+
+grant	codebase "file:./PrintActions.jar",
+	Principal printserver.principal.PrintserverPrincipal "Alice" {
+
+   permission printserver.PrintServerPermission "print";
+   permission printserver.PrintServerPermission "status";
+
+   permission printserver.PrintServerPermission "queue";
+   permission printserver.PrintServerPermission "topQueue";
+   permission printserver.PrintServerPermission "start";
+   permission printserver.PrintServerPermission "stop";
+   permission printserver.PrintServerPermission "reset";
+   permission printserver.PrintServerPermission "readConfig";
+   permission printserver.PrintServerPermission "setConfig";
+};
+
+grant	codebase "file:./PrintActions.jar",
+	Principal printserver.principal.PrintserverPrincipal "Bart" {
+
+   permission printserver.PrintServerPermission "print";
+   permission printserver.PrintServerPermission "status";
+
+   permission printserver.PrintServerPermission "start";
+   permission printserver.PrintServerPermission "stop";
+   permission printserver.PrintServerPermission "reset";
+   permission printserver.PrintServerPermission "readConfig";
+   permission printserver.PrintServerPermission "setConfig";
+};
+
+grant	codebase "file:./PrintActions.jar",
+	Principal printserver.principal.PrintserverPrincipal "Cecile" {
+
+   permission printserver.PrintServerPermission "print";
+   permission printserver.PrintServerPermission "status";
+
+   permission printserver.PrintServerPermission "topQueue";
+   permission printserver.PrintServerPermission "reset";
+};
+
+grant	codebase "file:./PrintActions.jar",
+	Principal printserver.principal.PrintserverPrincipal "Dirk" {
+
+   permission printserver.PrintServerPermission "print";
+   permission printserver.PrintServerPermission "status";
+
+   permission printserver.PrintServerPermission "queue";
+};
+
+grant	codebase "file:./PrintActions.jar",
+	Principal printserver.principal.PrintserverPrincipal "Erica" {
+
+   permission printserver.PrintServerPermission "print";
+   permission printserver.PrintServerPermission "status";
+
+   permission printserver.PrintServerPermission "queue";
+};

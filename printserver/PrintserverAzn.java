@@ -37,7 +37,7 @@
  * maintenance of any nuclear facility.
  */
 
-package sample;
+package printserver;
 
 import java.io.*;
 import java.util.*;
@@ -56,7 +56,7 @@ import com.sun.security.auth.*;
  * <p> If the user successfully authenticates itself,
  * the username and number of Credentials is displayed.
  */
-public class SampleAzn {
+public class PrintserverAzn {
 
     /**
      * Attempt to authenticate the user.
@@ -73,7 +73,7 @@ public class SampleAzn {
         // file and to also use the specified CallbackHandler.
         LoginContext lc = null;
         try {
-            lc = new LoginContext("Sample", new MyCallbackHandler());
+            lc = new LoginContext("Printserver", new MyCallbackHandler());
         } catch (LoginException le) {
             System.err.println("Cannot create LoginContext. "
                 + le.getMessage());
@@ -132,7 +132,84 @@ public class SampleAzn {
 
         // now try to execute the SampleAction as the authenticated Subject
         PrivilegedAction action = new SampleAction();
-        Subject.doAsPrivileged(mySubject, action, null);
+        try {
+            Subject.doAsPrivileged(mySubject, action, null);
+        }
+        catch(SecurityException e) {
+            System.out.println("geen permissie voor Sample Action");
+        }
+        
+        action = new PrintAction();
+        try {
+            Subject.doAsPrivileged(mySubject, action, null);
+        }
+        catch(SecurityException e) {
+            System.out.println("geen permissie voor Print Action");
+        }
+        
+        action = new QueueAction();
+        try {
+            Subject.doAsPrivileged(mySubject, action, null);
+        }
+        catch(SecurityException e) {
+            System.out.println("geen permissie voor Queue Action");
+        }
+        
+        action = new TopQueueAction();
+        try {
+            Subject.doAsPrivileged(mySubject, action, null);
+        }
+        catch(SecurityException e) {
+            System.out.println("geen permissie voor TopQueue Action");
+        }
+        
+        action = new StartAction();
+        try {
+            Subject.doAsPrivileged(mySubject, action, null);
+        }
+        catch(SecurityException e) {
+            System.out.println("geen permissie voor Start Action");
+        }
+        
+        action = new StopAction();
+        try {
+            Subject.doAsPrivileged(mySubject, action, null);
+        }
+        catch(SecurityException e) {
+            System.out.println("geen permissie voor Stop Action");
+        }
+        
+        action = new ResetAction();
+        try {
+            Subject.doAsPrivileged(mySubject, action, null);
+        }
+        catch(SecurityException e) {
+            System.out.println("geen permissie voor Reset Action");
+        }
+        
+        action = new StatusAction();
+        try {
+            Subject.doAsPrivileged(mySubject, action, null);
+        }
+        catch(SecurityException e) {
+            System.out.println("geen permissie voor Status Action");
+        }
+        
+        action = new ReadConfigAction();
+        try {
+            Subject.doAsPrivileged(mySubject, action, null);
+        }
+        catch(SecurityException e) {
+            System.out.println("geen permissie voor ReadConfig Action");
+        }
+        
+        action = new SetConfigAction();
+        try {
+            Subject.doAsPrivileged(mySubject, action, null);
+        }
+        catch(SecurityException e) {
+            System.out.println("geen permissie voor SetConfig Action");
+        }
 
         System.exit(0);
     }
